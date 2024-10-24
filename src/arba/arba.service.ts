@@ -1,26 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateArbaDto } from './dto/create-arba.dto';
 import { UpdateArbaDto } from './dto/update-arba.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Arba } from './entities/arba.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ArbaService {
-  create(createArbaDto: CreateArbaDto) {
-    return 'This action adds a new arba';
-  }
+  constructor(
+    @InjectRepository(Arba) private readonly arbaRepository:Repository<Arba>,
+  ) {}
 
-  findAll() {
-    return `This action returns all arba`;
-  }
+  async create(dto: any) {
+    const arba = this.arbaRepository.create(dto);
+    return await this.arbaRepository.save(arba);
+  };
 
-  findOne(id: number) {
-    return `This action returns a #${id} arba`;
-  }
-
-  update(id: number, updateArbaDto: UpdateArbaDto) {
-    return `This action updates a #${id} arba`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} arba`;
+  private async generateArbaInvoice() {
+    
   }
 }
